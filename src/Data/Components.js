@@ -5,12 +5,14 @@ export const components = [
       {
         name: "Cardone",
         path: "/docs/cardone",
+        tag: "update",
         import: () => import('@/Components/Cards/Cardone'),
         raw: () => import('@/Components/Cards/Cardone?raw'),
       },
       {
         name: "Cardtwo",
         path: "/docs/cardtwo",
+        tag: "new",
         import: () => import('@/Components/Cards/Cardtwo'),
         raw: () => import('@/Components/Cards/Cardtwo?raw'),
       },
