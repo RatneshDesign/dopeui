@@ -3,11 +3,12 @@ export const components = [
     category: "Cards",
     items: [
       {
-        name: "Cardone",
-        path: "/docs/cardone",
+        name: "ProductCard",
+        path: "/docs/ProductCard",
         tag: "update",
-        import: () => import('@/Components/Cards/Cardone'),
-        raw: () => import('@/Components/Cards/Cardone?raw'),
+        import: () => import('@/Components/Cards/Productcard/ProductCard'),
+        raw: () => import('@/Components/Cards/Productcard/ProductCard?raw'),
+        rawcss: () => import('@/Components/Cards/Productcard/Productcard.css?raw'),
       },
       {
         name: "Cardtwo",

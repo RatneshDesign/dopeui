@@ -1,36 +1,40 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { components } from '@/data/components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import "./Docs.css"
+import { components } from '@/data/components';
+import "./Docs.css";
 
 function Docs() {
   const { componentName } = useParams();
-  const [expandedCategory, setExpandedCategory] = useState(null);
+  const [expandedCategory, setExpandedCategory] = useState(() => {
+    const initialState = {};
+    components.forEach(cat => {
+      initialState[cat.category] = true;
+    });
+    return initialState;
+  });
   const [showCode, setShowCode] = useState(false);
-  const [rawCode, setRawCode] = useState('');
+  const [rawJsx, setRawJsx] = useState('');
+  const [rawCss, setRawCss] = useState('');
   const [Component, setComponent] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Update document title
   useEffect(() => {
-    const baseTitle = "DopeUi - ";
-    if (componentName) {
-      document.title = `${baseTitle}${componentName}`;
-    } else {
-      document.title = `${baseTitle}Documentation`;
-    }
+    document.title = `DopeUI${componentName ? ` - ${componentName}` : ' Documentation'}`;
   }, [componentName]);
 
-  // reset states when componentss changes
+  // Reset states when component changes
   useEffect(() => {
     setShowCode(false);
-    setRawCode('');
+    setRawJsx('');
+    setRawCss('');
     setLoading(true);
   }, [componentName]);
 
-  // load components when route changes
+  // Load component
   useEffect(() => {
     const selected = components
       .flatMap(cat => cat.items)
@@ -38,211 +42,197 @@ function Docs() {
 
     if (selected) {
       setLoading(true);
-      selected.import().then(module => {
-        setComponent(() => module.default);
-        setLoading(false);
-      });
+      selected.import()
+        .then(module => {
+          setComponent(() => module.default);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
     }
   }, [componentName]);
 
-  // load raw code when toggle
+  // Load raw code when toggled
   useEffect(() => {
     if (componentName && showCode) {
       const selected = components
         .flatMap(cat => cat.items)
         .find(item => item.name.toLowerCase() === componentName?.toLowerCase());
-
+      
       if (selected) {
-        selected.raw().then(mod => {
-          setRawCode(mod.default);
-        });
+        // Load JSX code
+        selected.raw().then(mod => setRawJsx(mod.default));
+        
+        // Load CSS code if available
+        if (selected.rawcss) {
+          selected.rawcss().then(mod => setRawCss(mod.default));
+        } else {
+          setRawCss('');
+        }
       }
     }
   }, [componentName, showCode]);
 
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
+  // Toggle category expansion
+  const toggleCategory = (category) => {
+    setExpandedCategory(prev => ({
+      ...prev,
+      [category]: !prev[category]
+    }));
   };
 
-  const itemVariants = {
-    hidden: { opacity: 1, y: -10 },
-    show: { opacity: 1, y: 0 }
-  };
-
-  const categoryVariants = {
-    open: {
-      height: "auto",
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-        staggerChildren: 0.05
-      }
+  // Animation variants
+  const animations = {
+    category: {
+      open: { height: 'auto', opacity: 1 },
+      closed: { height: 0, opacity: 0 }
     },
-    closed: {
-      height: 0,
-      opacity: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-        staggerChildren: 0.05
-      }
+    item: {
+      hidden: { opacity: 0, y: -5 },
+      visible: { opacity: 1, y: 0 }
+    },
+    fade: {
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      exit: { opacity: 0 }
     }
   };
 
   return (
-    <div className="docs_container">
-      <aside className="sidebar">
-        <h2 className="">Components</h2>
-        <div className="category_list">
-          {components.map(cat => (
-            <div key={cat.category} className="category_item">
-              <motion.button
-                onClick={() =>
-                  setExpandedCategory(prev => {
-                    const current = prev?.[cat.category];
-                    const newValue = current === undefined ? false : !current;
-                    return { ...(prev || {}), [cat.category]: newValue };
-                  })
-                }
-                className="category_toggle"
+    <div className="docs-container">
+      <aside className="docs-sidebar">
+        <h2 className="sidebar-title">Components</h2>
+        <nav className="category-list">
+          {components.map(category => (
+            <div key={category.category} className="category-item">
+              <button
+                className="category-toggle"
+                onClick={() => toggleCategory(category.category)}
               >
-                {cat.category}
+                {category.category}
                 <motion.span
-                  animate={{ rotate: expandedCategory?.[cat.category] ?? true ? 0 : 180 }}
+                  animate={{ rotate: expandedCategory[category.category] ? 0 : 180 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {expandedCategory?.[cat.category] ?? true ? '▲' : '▼'}
+                  {expandedCategory[category.category] ? '▲' : '▼'}
                 </motion.span>
-              </motion.button>
+              </button>
 
               <AnimatePresence>
-                {(expandedCategory?.[cat.category] ?? true) && (
+                {expandedCategory[category.category] && (
                   <motion.div
                     initial="closed"
                     animate="open"
                     exit="closed"
-                    variants={categoryVariants}
-                    className="overflow-hidden"
+                    variants={animations.category}
+                    transition={{ duration: 0.2 }}
+                    className="category-content"
                   >
-                    <motion.div
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="show"
-                      className="category-items"
-                    >
-                      {cat.items.map(item => (
-                        <motion.div
-                          key={item.name}
-                          variants={itemVariants}
+                    {category.items.map(item => (
+                      <motion.div
+                        key={item.name}
+                        variants={animations.item}
+                        transition={{ duration: 0.15 }}
+                      >
+                        <Link
+                          to={item.path}
+                          className={`component-link ${componentName === item.name ? 'active' : ''}`}
+                          onClick={() => window.scrollTo(0, 0)}
                         >
-                          <Link
-                            className="item_link"
-                            to={item.path}
-                            onClick={() => window.scrollTo(0, 0)}
-                          >
-                            {item.name}
-                            {item.tag && (
-                              <motion.span
-                                className={`tag ${item.tag}`}
-                                whileHover={{ scale: 1.1 }}
-                              >
-                                {item.tag}
-                              </motion.span>
-                            )}
-                          </Link>
-                        </motion.div>
-                      ))}
-                    </motion.div>
+                          {item.name}
+                          {item.tag && (
+                            <span className={`component-tag ${item.tag}`}>
+                              {item.tag}
+                            </span>
+                          )}
+                        </Link>
+                      </motion.div>
+                    ))}
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
           ))}
-        </div>
+        </nav>
       </aside>
 
-      <main className="main_content">
-        <h1>{componentName}</h1>
+      <main className="docs-content">
         <AnimatePresence mode="wait">
           {loading ? (
             <motion.div
-              key="loader"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="loader-wrapper"
+              key="loading"
+              className="loader-container"
+              {...animations.fade}
             >
-              <div className="loader"></div>
+              <div className="loader-spinner"></div>
             </motion.div>
           ) : Component ? (
             <motion.div
               key="component"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className='mainhero'
+              className="component-container"
+              {...animations.fade}
             >
-              <div className="view_toggle_buttons">
+              <h1 className="component-title">{componentName}</h1>
+              
+              <div className="view-toggle">
                 <button
-                  className="toggle-preview-btn"
+                  className={`toggle-btn ${!showCode ? 'active' : ''}`}
                   onClick={() => setShowCode(false)}
-                  disabled={!showCode}
                 >
                   Preview
                 </button>
                 <button
-                  className="toggle-code-btn"
+                  className={`toggle-btn ${showCode ? 'active' : ''}`}
                   onClick={() => setShowCode(true)}
-                  disabled={showCode}
                 >
                   Code
                 </button>
-
               </div>
 
-              {showCode && rawCode ? (
-                <SyntaxHighlighter language="jsx" style={nightOwl}>
-                  {rawCode}
-                </SyntaxHighlighter>
-              ) : (
-                <div className="backgroundforcompo">
-                  <button
-                    className="refresh_btn"
-                  // onClick={() => setComponentKey(Date.now())}
+              {showCode ? (
+ 
+                <div className="code-container">
+                  <h1 className="code-section-title">Code</h1>
+                  <SyntaxHighlighter 
+                    language="jsx" 
+                    style={nightOwl}
+                    customStyle={{ margin: 0, borderRadius: '8px' }}
                   >
-                    o
-                  </button>
-                  <Component key={componentName} />
+                    {rawJsx}
+                  </SyntaxHighlighter>
+                  
+                  {rawCss && (
+                    <>
+                      <h1 className="code-section-title">Styling</h1>
+                      <SyntaxHighlighter 
+                        language="css" 
+                        style={nightOwl}
+                        customStyle={{ margin: 0, borderRadius: '8px' }}
+                      >
+                        {rawCss}
+                      </SyntaxHighlighter>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="component-preview-container">
+                  <div className="component-preview">
+                    <Component />
+                  </div>
                 </div>
               )}
             </motion.div>
           ) : (
             <motion.div
               key="empty"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
               className="empty-state"
+              {...animations.fade}
             >
-              Please select a component from the sidebar
+              Select a component from the sidebar
             </motion.div>
           )}
         </AnimatePresence>
-        {showCode ?
-          <div className="backgroundforcompo"></div>
-          : <></>}
       </main>
-
     </div>
-
   );
 }
 
