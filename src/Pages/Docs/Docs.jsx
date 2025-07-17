@@ -57,11 +57,11 @@ function Docs() {
       const selected = components
         .flatMap(cat => cat.items)
         .find(item => item.name.toLowerCase() === componentName?.toLowerCase());
-      
+
       if (selected) {
         // Load JSX code
         selected.raw().then(mod => setRawJsx(mod.default));
-        
+
         // Load CSS code if available
         if (selected.rawcss) {
           selected.rawcss().then(mod => setRawCss(mod.default));
@@ -113,7 +113,16 @@ function Docs() {
                   animate={{ rotate: expandedCategory[category.category] ? 0 : 180 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {expandedCategory[category.category] ? '▲' : '▼'}
+                  {expandedCategory[category.category] ? <>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="#ffffffff" fill="none">
+                      <path d="M17.9997 12.5C17.9997 12.5 13.5807 18.5 11.9996 18.5C10.4185 18.5 5.99966 12.5 5.99966 12.5" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M17.9997 5.50005C17.9997 5.50005 13.5807 11.5 11.9996 11.5C10.4185 11.5 5.99966 5.5 5.99966 5.5" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </> : <>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={20} height={20} color={"#ffffff"} fill={"none"}>
+                      <path d="M17.9997 12.5C17.9997 12.5 13.5807 18.5 11.9996 18.5C10.4185 18.5 5.99966 12.5 5.99966 12.5" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                      <path d="M17.9997 5.50005C17.9997 5.50005 13.5807 11.5 11.9996 11.5C10.4185 11.5 5.99966 5.5 5.99966 5.5" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                    </svg></>}
                 </motion.span>
               </button>
 
@@ -172,7 +181,7 @@ function Docs() {
               {...animations.fade}
             >
               <h1 className="component-title">{componentName}</h1>
-              
+
               <div className="view-toggle">
                 <button
                   className={`toggle-btn ${!showCode ? 'active' : ''}`}
@@ -189,22 +198,22 @@ function Docs() {
               </div>
 
               {showCode ? (
- 
+
                 <div className="code-container">
                   <h1 className="code-section-title">Code</h1>
-                  <SyntaxHighlighter 
-                    language="jsx" 
+                  <SyntaxHighlighter
+                    language="jsx"
                     style={nightOwl}
                     customStyle={{ margin: 0, borderRadius: '8px' }}
                   >
                     {rawJsx}
                   </SyntaxHighlighter>
-                  
+
                   {rawCss && (
                     <>
                       <h1 className="code-section-title">Styling</h1>
-                      <SyntaxHighlighter 
-                        language="css" 
+                      <SyntaxHighlighter
+                        language="css"
                         style={nightOwl}
                         customStyle={{ margin: 0, borderRadius: '8px' }}
                       >
@@ -216,6 +225,7 @@ function Docs() {
               ) : (
                 <div className="component-preview-container">
                   <div className="component-preview">
+                    <div className="overlaycomponent-preview"></div>
                     <Component />
                   </div>
                 </div>

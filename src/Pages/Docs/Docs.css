@@ -149,9 +149,19 @@
     border-radius: 8px;
     background: #252525;
     padding: 2rem;
-    border: 1px solid #383838;
+    border: 2px solid #383838;
+    position: relative;
+    overflow: hidden;
 }
-
+.overlaycomponent-preview {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: radial-gradient(#ffffff46 1px, #1b1b1b 1px);
+    background-size: 21px 21px;
+}
 .code-container {
     width: 100%;
     max-width: 1200px;

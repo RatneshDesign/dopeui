@@ -18,9 +18,9 @@
 }
 
 img {
-  -webkit-user-drag: none;
-  user-select: none;
-  -webkit-user-select: none;
+  -webkit-user-drag: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
 ::selection{
