@@ -21,7 +21,7 @@ function Productcard2() {
         <figure className="clippath_container_forimage" style={{ clipPath: 'url(#clip-squiggle)' }}>
           <div className="image_blur_wrapper">
             <img src="/DemoImages/shoes.png" alt="adding image here.." />
-            <div className="bg_blur_oncard">
+            <div className="card_info">
               <h3>Nike M2K Tekno</h3>
               <span>Elevate Your Every Step</span>
               <div className="price_tag">
@@ -29,7 +29,9 @@ function Productcard2() {
               </div>
             </div>
           </div>
-            <div className="blurgain"></div>
+          <div className="blur_wrapper">
+            <div className="blur_block"></div>
+          </div>
         </figure>
       </div>
     </>

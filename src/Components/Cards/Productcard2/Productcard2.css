@@ -20,28 +20,30 @@
     overflow: hidden;
     background: #000;
 }
+.blur_wrapper{
+    width: 100%;
+    height: 30%;
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+}
 
-.blurgain::after {
+.blur_block::after {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 30%;
-    scale: 1.1;
-    /* background: #00000014; */
+    height: 90%;
     background: linear-gradient(to bottom,
             rgba(0, 0, 0, 0.7) 0%,
             rgba(0, 0, 0, 0.527) 40%,
             rgba(255, 255, 255, 0) 100%);
   
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(1px);
     pointer-events: none;
-    z-index: -1;
-    /* transform: translateY(-10px); */
 }
 
-/* 💡 Add this new wrapper for the image & blur */
 .image_blur_wrapper {
     width: 100%;
     height: 100%;
@@ -56,7 +58,7 @@
     display: block;
 }
 
-.bg_blur_oncard {
+.card_info {
     position: absolute;
     top: 0;
     left: 0;
