@@ -1,7 +1,8 @@
-.docs-container {
+.docs_container {
     display: flex;
+    width: 100vw;
     min-height: 100vh;
-    background: #1a1a1a;
+    /* background: #1a1a1a; */
     color: #ffffff;
 }
 
@@ -11,12 +12,12 @@
     position: sticky;
     top: 0;
     padding: 1.5rem;
-    background: #222;
-    border-right: 1px solid #333;
+    /* background: #222; */
+    /* border-right: 1px solid #e64f2146; */
     overflow-y: auto;
 }
 
-.docs-content {
+.docs_content {
     flex: 1;
     padding: 2rem;
     max-width: calc(100% - 280px);
@@ -35,18 +36,18 @@
     gap: 0.5rem;
 }
 
-.category-item {
+.category_item {
     border-radius: 6px;
     overflow: hidden;
 }
 
-.category-toggle {
+.category_toggle {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 1rem;
-    background: #2d2d2d;
+    background: transparent;
     border: none;
     color: #f0f0f0;
     cursor: pointer;
@@ -54,19 +55,19 @@
     transition: background 0.2s ease;
 }
 
-.category-toggle:hover {
+.category_toggle:hover {
     background: #383838;
 }
 
 .category-content {
-    padding: 0.5rem 0;
-    background: #252525;
+    /* padding: 0.5rem 0; */
+    /* background: #252525; */
 }
 
 .component-link {
     display: flex;
     align-items: center;
-    padding: 0.5rem 1rem;
+    padding: 0rem 1rem;
     color: #d0d0d0;
     text-decoration: none;
     font-size: 0.9rem;
@@ -79,21 +80,21 @@
 }
 
 .component-link.active {
-    color: #3a5bc7;
+    color: #E64F21;
     background: rgba(58, 91, 199, 0.1);
 }
 
 .component-tag {
     font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
+    padding: 0.1rem 0.3rem;
     margin-left: 0.5rem;
     border-radius: 4px;
-    background: #3a5bc7;
+    background: #E64F21;
     color: white;
 }
 
 .component-tag.update {
-    background: #2e7d32;
+    background: #5f21e6;
 }
 
 /* Main Content Styles */
@@ -122,7 +123,7 @@
 }
 
 .toggle-btn.active {
-    background: #3a5bc7;
+    background: #E64F21;
     color: white;
 }
 
@@ -149,9 +150,13 @@
     border-radius: 8px;
     background: #252525;
     padding: 2rem;
-    border: 2px solid #383838;
+    /* border: 2px solid #383838; */
+    border: 2px solid #e64f213b;
     position: relative;
     overflow: hidden;
+}
+.component-preview:hover{
+    border: 2px solid #e64f217e;
 }
 .overlaycomponent-preview {
     position: absolute;
@@ -187,7 +192,7 @@
     height: 40px;
     border: 4px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
-    border-top-color: #3a5bc7;
+    border-top-color: #E64F21;
     animation: spin 1s ease-in-out infinite;
 }
 

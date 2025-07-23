@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { components } from '@/data/components';
 import "./Docs.css";
 
@@ -98,14 +98,14 @@ function Docs() {
   };
 
   return (
-    <div className="docs-container">
+    <div className="docs_container">
       <aside className="docs-sidebar">
         <h2 className="sidebar-title">Components</h2>
         <nav className="category-list">
           {components.map(category => (
-            <div key={category.category} className="category-item">
+            <div key={category.category} className="category_item">
               <button
-                className="category-toggle"
+                className="category_toggle"
                 onClick={() => toggleCategory(category.category)}
               >
                 {category.category}
@@ -147,6 +147,7 @@ function Docs() {
                           className={`component-link ${componentName === item.name ? 'active' : ''}`}
                           onClick={() => window.scrollTo(0, 0)}
                         >
+                          <img src="/svgs/arrow.svg" alt="" style={{marginRight : "5px"}} />
                           {item.name}
                           {item.tag && (
                             <span className={`component-tag ${item.tag}`}>
@@ -164,7 +165,7 @@ function Docs() {
         </nav>
       </aside>
 
-      <main className="docs-content">
+      <main className="docs_content">
         <AnimatePresence mode="wait">
           {loading ? (
             <motion.div
@@ -203,7 +204,7 @@ function Docs() {
                   <h1 className="code-section-title">Code</h1>
                   <SyntaxHighlighter
                     language="jsx"
-                    style={nightOwl}
+                    style={dracula}
                     customStyle={{ margin: 0, borderRadius: '8px' }}
                   >
                     {rawJsx}
@@ -214,7 +215,7 @@ function Docs() {
                       <h1 className="code-section-title">Styling</h1>
                       <SyntaxHighlighter
                         language="css"
-                        style={nightOwl}
+                        style={dracula}
                         customStyle={{ margin: 0, borderRadius: '8px' }}
                       >
                         {rawCss}

@@ -1,21 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Spline from '@splinetool/react-spline';
 import { Link } from 'react-router-dom';
 import "./Home.css"
 import { motion, AnimatePresence } from "framer-motion";
 
 
-const names = ["Product Card Design", "Profile Card", "New Cards"];
 
 function Home() {
   const [index, setIndex] = useState(0);
+  const [width, setWidth] = useState(0);
+  const containerRef = useRef(null);
+  const names = ["Product Card Design", "Profile Card", "New Cards"];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % names.length);
-    }, 2000); // Change every 2 seconds
-
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const nextWidth = containerRef.current.offsetWidth;
+      setWidth(nextWidth);
+    }
+  }, [index]);
+
   return (
     <>
       <svg width="0" height="0">
@@ -79,46 +89,49 @@ function Home() {
           <div className="bglinks_nav" style={{ padding: "0.5em", height: "60%", marginTop: "3% ", opacity: 0 }} ></div>
           <div className="bglinks_nav"
           >
-            <a href='https://github.com/RatneshDesign' target='_blank'>Github</a>
+            <a href='https://github.com/RatneshDesign/dopeui' target='_blank'>Github</a>
           </div>
         </div>
       </nav>
 
       <div className="herosection">
-        <motion.div
-          className="newadded"
-          animate={{ width: "auto" }}
-          transition={{ duration: 0.5, ease: "linear" }}
-        >
-          <motion.img
-            src="/Star.svg"
-            alt="star"
-            width={15}
-            height={15}
-            animate={{ rotate: 360 }}
-            transition={{
-              repeat: Infinity,
-              duration: 10,
-              ease: "linear"
-            }}
-          />
-          <span>Indroducing</span>
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={names[index]}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4 }}
-              style={{ display: "inline-block" }}
-            >
-              {names[index]}
-            </motion.span>
-          </AnimatePresence>
-          <div className="neworupdate">
-            New
-          </div>
-        </motion.div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            className="newadded"
+            animate={{ width }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            style={{ overflow: "hidden" }}
+          >
+            <div ref={containerRef} style={{ display: "inline-flex", alignItems: "center" ,justifyContent : "space-between" , gap: "5px" }}>
+              <motion.img
+                src="/Star.svg"
+                alt="star"
+                width={15}
+                height={15}
+                animate={{ rotate: 360 }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 10,
+                  ease: "linear"
+                }}
+              />
+              <span>Introducing</span>
+              <motion.span
+                key={names[index]}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4 }}
+                style={{ display: "inline-block",marginRight : "10px" }}
+              >
+                {names[index]}
+              </motion.span>
+              <div className="neworupdate">New</div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+
         <h1>Build Beautiful UIs,<br /> the Dope Way.</h1>
         <p style={{ width: "50%", textAlign: "center", opacity: 0.7 }}>DopeUI gives React developers a powerful set of prebuilt components, layout templates, and design utilities inspired by real-world UI patterns. Say goodbye to repetitive boilerplate — and hello to clean, scalable code.</p>
         <div className="bglinks_nav" style={{ height: "fit-content", marginTop: "2vh" }}>
