@@ -8,7 +8,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #090100;
+  background-color: #101010;
 }
 
 * {
@@ -24,7 +24,7 @@ img {
 }
 
 ::selection{
-  background: #747bff;
+  background: #E64F21;
 }
 
 a {
@@ -40,10 +40,12 @@ a {
 body {
   display: flex;
   place-items: center;
-  min-width: 320px;
+  align-items: center;
+  justify-content: center;
   width: 100vw;
+  min-height: 100vh;
   overflow-x: hidden;
-  margin: 0;
+  scroll-behavior: auto; 
 }
 
 ul li {
@@ -52,12 +54,11 @@ ul li {
 
 #root {
   display: flex;
-  /* align-items: center;
-  justify-content: center; */
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   width: 100vw;
   min-height: 100vh;
-  padding: 0px 2vw;
 
 }
 

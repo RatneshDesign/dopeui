@@ -3,7 +3,6 @@ import "./Productcard2.css"
 function Productcard2() {
   return (
     <>
-
       <svg className="clipppy" >
         <defs>
           <clipPath id="clip-squiggle" clipPathUnits="userSpaceOnUse">
