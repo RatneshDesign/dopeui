@@ -1,0 +1,30 @@
+DopeUI Community License v1.0
+
+Copyright (c) 2025 Ratnesh Kumawat  
+All rights reserved.
+
+✅ Permissions
+
+You are free to use the DopeUI components in personal, educational, and commercial projects, including:
+
+- Use and modify the components in your own applications, websites, or client projects.
+- Distribute your applications that include DopeUI components.
+- Modify and adapt the source code for your specific needs.
+
+🚫 Restrictions
+
+You may not:
+
+- Sell, resell, sublicense, or redistribute the DopeUI components themselves — individually, bundled, or as a part of a UI kit, design system, or template.
+- Claim authorship or original creation of DopeUI components.
+- Use the DopeUI brand name, logo, or likeness in a way that implies endorsement.
+
+⚖️ Warranty Disclaimer
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.  
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DAMAGES ARISING FROM THE USE OF THIS SOFTWARE.
+
+💡 Attribution (Optional but Appreciated)
+
+If you find DopeUI helpful, consider adding a note like:  
+"Built with love using DopeUI by Ratnesh Kumawat"

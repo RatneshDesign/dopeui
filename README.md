@@ -11,7 +11,7 @@ Perfect for developers who want modern design without wasting time on Figma.
 - Free for personal + commercial use
 
 ## 📦 Preview
-Check it out at 👉 [dopeui.vercel.app](https://dopeui.vercel.app)
+<!-- Check it out at 👉 [dopeui.vercel.app](https://dopeui.vercel.app) -->
 
 ## 🛠️ Tech Stack
 - React + Vite
