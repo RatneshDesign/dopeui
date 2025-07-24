@@ -1,0 +1,65 @@
+.dopeui-intro {
+  max-width: 750px;
+  margin: 100px auto;
+  padding: 0 2rem;
+  text-align: center;
+  color: #eaeaea;
+  font-family: "Inter", sans-serif;
+}
+
+.dopeui-intro h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.dopeui-intro h1 span {
+  color: #ff3c3c;
+}
+
+.dopeui-intro p {
+  font-size: 1.1rem;
+  color: #c5c5c5;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.dopeui-intro ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 2.5rem;
+  text-align: left;
+  max-width: 500px;
+  color: #bbbbbb;
+}
+
+.dopeui-intro ul li {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.dopeui-intro ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #ff3c3c;
+}
+
+.get-started-btn {
+  display: inline-block;
+  background-color: #ff3c3c;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.get-started-btn:hover {
+  background-color: #e02929;
+}

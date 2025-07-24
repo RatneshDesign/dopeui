@@ -9,6 +9,8 @@
   height: 7vh;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100vw;
   padding: 0 2rem;
   flex-shrink: 0;
   z-index: 100;
@@ -27,7 +29,7 @@
 .docs_content {
   flex: 1;
   overflow-y: auto;
-  padding: 2rem;
+  padding: 1rem;
   height: calc(100vh - 7vh); 
 }
 
@@ -94,6 +96,7 @@
 }
 
 .component-link {
+    position: relative;
     text-wrap: nowrap !important;
     display: flex;
     align-items: center;
@@ -131,10 +134,23 @@
 }
 
 /* Main Content Styles */
-.component-title {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+.component_title {
+    font-size: 3rem;
     color: #f0f0f0;
+    margin-top: 20px;
+}
+.docs_contenant{
+    margin-bottom: 1.5rem;
+}
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    font-weight: 300;
+}
+.component_description{
+    font-weight: 350;
+    color: #8c8c8c;
+    width: 60%;
 }
 
 .view-toggle {
@@ -251,4 +267,20 @@
   font-size: 1rem;
   color: #aaa;
   margin: 1rem 0 0.5rem;
+}
+
+
+.activeactionlink{
+    width: fit-content;
+    height: 23px;
+}
+.activeactionlink::after{
+    content: '';
+    z-index: -1;
+    position: absolute;
+    left: 11px;
+    top: 0;
+    width: 2px;
+    height: 23px;
+    background: #3f3f3f;
 }
