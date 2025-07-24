@@ -28,6 +28,7 @@ function Home() {
 
   return (
     <>
+    <h1>hello</h1>
       <svg width="0" height="0">
         <defs>
           <clipPath id="myClip" clipPathUnits="objectBoundingBox">
