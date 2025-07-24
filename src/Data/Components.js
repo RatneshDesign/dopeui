@@ -26,8 +26,9 @@ export const components = [
       {
         name: "Ai input field",
         path: "/docs/glasscard",
-        // import: () => import('@/Components/ProfileCards/GlassCard'),
-        // raw: () => import('@/Components/ProfileCards/GlassCard?raw'),
+        import: () => import('@/Components/Forms/AiInput'),
+        raw: () => import('@/Components/Forms/AiInput?raw'),
+        rawcss: () => import('@/Components/Forms/AiInput.css?raw'),
       },
     ],
   },
