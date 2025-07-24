@@ -21,6 +21,17 @@ export const components = [
     ],
   },
   {
+    category: "Forms",
+    items: [
+      {
+        name: "Ai input field",
+        path: "/docs/glasscard",
+        // import: () => import('@/Components/ProfileCards/GlassCard'),
+        // raw: () => import('@/Components/ProfileCards/GlassCard?raw'),
+      },
+    ],
+  },
+  {
     category: "Profile Cards",
     items: [
       {

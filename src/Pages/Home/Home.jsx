@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import "./Home.css"
 import { motion, AnimatePresence } from "framer-motion";
 
-
-
 function Home() {
   const [index, setIndex] = useState(0);
   const [width, setWidth] = useState(0);
@@ -65,7 +63,7 @@ function Home() {
         0 0 0 50 -20" />
         </filter>
       </svg>
-      
+
       <nav className='Homenav'>
         <div className="logo">
           <img src="/navlogo.svg" alt="" />
