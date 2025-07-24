@@ -28,7 +28,6 @@ function Home() {
 
   return (
     <>
-    <h1>hello</h1>
       <svg width="0" height="0">
         <defs>
           <clipPath id="myClip" clipPathUnits="objectBoundingBox">
@@ -66,8 +65,7 @@ function Home() {
         0 0 0 50 -20" />
         </filter>
       </svg>
-
-
+      
       <nav className='Homenav'>
         <div className="logo">
           <img src="/navlogo.svg" alt="" />
