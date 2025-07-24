@@ -1,8 +1,26 @@
-# React + Vite
+# DopeUI – Sleek, Copy-Paste UI Components for React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔥 DopeUI is a growing library of beautiful, motion-rich UI components built using React + Tailwind + GSAP/Framer Motion.
 
-Currently, two official plugins are available:
+Perfect for developers who want modern design without wasting time on Figma.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
+- 20+ reusable components
+- Copy-paste ready code
+- Lightweight + animation-ready
+- Free for personal + commercial use
+
+## 📦 Preview
+Check it out at 👉 [dopeui.vercel.app](https://dopeui.vercel.app)
+
+## 🛠️ Tech Stack
+- React + Vite
+- TailwindCSS
+- Framer Motion / GSAP
+
+## 📄 License
+MIT – use freely.
+
+## ⭐ Support
+Star this repo if you love it ❤️  
+Have suggestions? Open an issue!

@@ -23,18 +23,15 @@ function Docs() {
   const [loading, setLoading] = useState(false);
   const [CurrentComponentName, setCurrentComponentName] = useState('');
 
-  // Update document title
-  useEffect(() => {
-    document.title = `DopeUI${componentName ? ` - ${CurrentComponentName}` : ' Documentation'}`;
-  }, [componentName]);
-
-  // Reset states when component changes
-  useEffect(() => {
-    setShowCode(false);
-    setRawJsx('');
-    setRawCss('');
-    setLoading(true);
-  }, [componentName]);
+  // useEffect(() => {
+  //   setShowCode(false);
+  //   setRawJsx('');
+  //   setRawCss('');
+  //   setLoading(true);
+  // }, [componentName]);
+useEffect(() => {
+  document.title = `DopeUI${CurrentComponentName ? ` - ${CurrentComponentName}` : ' Documentation'}`;
+}, [CurrentComponentName]);
 
 
   // Load component
@@ -44,11 +41,13 @@ function Docs() {
       setShowCode(false);
       setRawJsx('');
       setRawCss('');
+      setCurrentComponentName('');
 
       try {
         // Default to Introduction when no component specified
         if (!componentName || componentName.toLowerCase() === 'introduction') {
           const mod = await import('./Introduction.jsx');
+          setCurrentComponentName('Introduction');
           setComponent(() => mod.default);
         } else {
           // Find and load regular components
@@ -59,7 +58,6 @@ function Docs() {
           if (selected) {
             const module = await selected.import();
             setCurrentComponentName(selected.name);
-
             setComponent(() => module.default);
           } else {
             setCurrentComponentName("Not Found");
@@ -68,6 +66,7 @@ function Docs() {
         }
       } catch (error) {
         console.error("Failed to load component:", error);
+        setCurrentComponentName('Error');
         setComponent(() => () => <div>Failed to load component</div>);
       } finally {
         setLoading(false);
@@ -98,6 +97,7 @@ function Docs() {
         }
       }
     }
+    document.title = `DopeUI${componentName ? ` - ${CurrentComponentName}` : ' Documentation'}`;
   }, [componentName, showCode]);
 
   // Toggle category expansion
@@ -147,7 +147,7 @@ function Docs() {
       <div className="content_wrapper">
 
         <aside className="docs_sidebar">
-          <h4 className="sidebar-title">Gettting Started</h4>
+          <h4 className="sidebar-title">Getting Started</h4>
           <Link
             to="/docs/introduction"
             style={{ marginTop: "0.75rem" }}
