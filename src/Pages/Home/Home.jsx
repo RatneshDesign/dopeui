@@ -3,13 +3,37 @@ import Spline from '@splinetool/react-spline';
 import { Link } from 'react-router-dom';
 import "./Home.css"
 import { motion, AnimatePresence } from "framer-motion";
+import Lenis from 'lenis';
 
 function Home() {
+
   const [index, setIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const containerRef = useRef(null);
   const names = ["Product Card Design", "Profile Card", "New Cards"];
 
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    lenis.scrollTo(0, { immediate: true });
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % names.length);
@@ -99,7 +123,7 @@ function Home() {
             transition={{ duration: 0.5, ease: "easeInOut" }}
             style={{ overflow: "hidden" }}
           >
-            <div ref={containerRef} style={{ display: "inline-flex", alignItems: "center" ,justifyContent : "space-between" , gap: "5px" }}>
+            <div ref={containerRef} style={{ display: "inline-flex", alignItems: "center", justifyContent: "space-between", gap: "5px" }}>
               <motion.img
                 src="/Star.svg"
                 alt="star"
@@ -119,7 +143,7 @@ function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4 }}
-                style={{ display: "inline-block",marginRight : "10px" }}
+                style={{ display: "inline-block", marginRight: "10px" }}
               >
                 {names[index]}
               </motion.span>

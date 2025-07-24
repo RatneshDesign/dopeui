@@ -6,6 +6,7 @@ import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { components } from '@/data/components';
 import "./Docs.css";
 
+
 function Docs() {
   const { componentName } = useParams();
   const [expandedCategory, setExpandedCategory] = useState(() => {
@@ -18,8 +19,9 @@ function Docs() {
   const [showCode, setShowCode] = useState(false);
   const [rawJsx, setRawJsx] = useState('');
   const [rawCss, setRawCss] = useState('');
-  const [Component, setComponent] = useState(null);
+  const [Component, setComponent] = useState(() => () => null);
   const [loading, setLoading] = useState(false);
+  const [CurrentComponentName, setCurrentComponentName] = useState('');
 
   // Update document title
   useEffect(() => {
@@ -34,21 +36,45 @@ function Docs() {
     setLoading(true);
   }, [componentName]);
 
+
   // Load component
   useEffect(() => {
-    const selected = components
-      .flatMap(cat => cat.items)
-      .find(item => item.name.toLowerCase() === componentName?.toLowerCase());
-
-    if (selected) {
+    const loadComponent = async () => {
       setLoading(true);
-      selected.import()
-        .then(module => {
-          setComponent(() => module.default);
-          setLoading(false);
-        })
-        .catch(() => setLoading(false));
-    }
+      setShowCode(false);
+      setRawJsx('');
+      setRawCss('');
+
+      try {
+        // Default to Introduction when no component specified
+        if (!componentName || componentName.toLowerCase() === 'introduction') {
+          const mod = await import('./Introduction.jsx');
+          setComponent(() => mod.default);
+        } else {
+          // Find and load regular components
+          const selected = components
+            .flatMap(cat => cat.items)
+            .find(item => item.slug.toLowerCase() === componentName.toLowerCase());
+
+          if (selected) {
+            const module = await selected.import();
+            setCurrentComponentName(selected.name);
+
+            setComponent(() => module.default);
+          } else {
+            setCurrentComponentName("Not Found");
+            setComponent(() => () => <div>Component not found</div>);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load component:", error);
+        setComponent(() => () => <div>Failed to load component</div>);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadComponent();
   }, [componentName]);
 
   // Load raw code when toggled
@@ -56,7 +82,9 @@ function Docs() {
     if (componentName && showCode) {
       const selected = components
         .flatMap(cat => cat.items)
-        .find(item => item.name.toLowerCase() === componentName?.toLowerCase());
+        .find(item => item.slug?.toLowerCase() === componentName?.toLowerCase());
+
+      // console.log("Component matched:", selected);
 
       if (selected) {
         // Load JSX code
@@ -97,152 +125,197 @@ function Docs() {
     }
   };
 
+
   return (
     <div className="docs_container">
-      <aside className="docs-sidebar">
-        <h2 className="sidebar-title">Components</h2>
-        <nav className="category-list">
-          {components.map(category => (
-            <div key={category.category} className="category_item">
-              <button
-                className="category_toggle"
-                onClick={() => toggleCategory(category.category)}
-              >
-                {category.category}
-                <motion.span
-                  animate={{ rotate: expandedCategory[category.category] ? 0 : 180 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {expandedCategory[category.category] ? <>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="#ffffffff" fill="none">
-                      <path d="M17.9997 12.5C17.9997 12.5 13.5807 18.5 11.9996 18.5C10.4185 18.5 5.99966 12.5 5.99966 12.5" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M17.9997 5.50005C17.9997 5.50005 13.5807 11.5 11.9996 11.5C10.4185 11.5 5.99966 5.5 5.99966 5.5" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </> : <>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={20} height={20} color={"#ffffff"} fill={"none"}>
-                      <path d="M17.9997 12.5C17.9997 12.5 13.5807 18.5 11.9996 18.5C10.4185 18.5 5.99966 12.5 5.99966 12.5" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                      <path d="M17.9997 5.50005C17.9997 5.50005 13.5807 11.5 11.9996 11.5C10.4185 11.5 5.99966 5.5 5.99966 5.5" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                    </svg></>}
-                </motion.span>
-              </button>
 
-              <AnimatePresence>
-                {expandedCategory[category.category] && (
-                  <motion.div
-                    initial="closed"
-                    animate="open"
-                    exit="closed"
-                    variants={animations.category}
+      <nav className="navbar">
+        <h2>DopeUI Documentation</h2>
+      </nav>
+
+      <div className="content_wrapper">
+
+        <aside className="docs_sidebar">
+          <h4 className="sidebar-title">Gettting Started</h4>
+          <Link
+            to="/docs/introduction"
+            style={{ marginTop: "0.75rem" }}
+            className={`component-link ${!componentName || componentName.toLowerCase() === 'introduction'
+              ? 'active'
+              : ''
+              }`}
+            onClick={() => window.scrollTo(0, 0)}
+          >
+            Introduction
+          </Link>
+
+          <br />
+          <h4 className="sidebar-title">Components</h4>
+          <nav className="category-list">
+            {components.map(category => (
+              <div key={category.category} className="category_item">
+                <button
+                  className="category_toggle"
+                  onClick={() => toggleCategory(category.category)}
+                >
+                  {category.category}
+                  <motion.span
+                    animate={{ rotate: expandedCategory[category.category] ? 0 : 180 }}
                     transition={{ duration: 0.2 }}
-                    className="category-content"
                   >
-                    {category.items.map(item => (
-                      <motion.div
-                        key={item.name}
-                        variants={animations.item}
-                        transition={{ duration: 0.15 }}
-                      >
-                        <Link
-                          to={item.path}
-                          className={`component-link ${componentName === item.name ? 'active' : ''}`}
-                          onClick={() => window.scrollTo(0, 0)}
+                    {expandedCategory[category.category] ? <>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" color="#ffffffff" fill="none">
+                        <path d="M17.9997 12.5C17.9997 12.5 13.5807 18.5 11.9996 18.5C10.4185 18.5 5.99966 12.5 5.99966 12.5" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M17.9997 5.50005C17.9997 5.50005 13.5807 11.5 11.9996 11.5C10.4185 11.5 5.99966 5.5 5.99966 5.5" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </> : <>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={16} height={16} color={"#ffffff"} fill={"none"}>
+                        <path d="M17.9997 12.5C17.9997 12.5 13.5807 18.5 11.9996 18.5C10.4185 18.5 5.99966 12.5 5.99966 12.5" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                        <path d="M17.9997 5.50005C17.9997 5.50005 13.5807 11.5 11.9996 11.5C10.4185 11.5 5.99966 5.5 5.99966 5.5" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                      </svg></>}
+                  </motion.span>
+                </button>
+
+                <AnimatePresence>
+                  {expandedCategory[category.category] && (
+                    <motion.div
+                      initial="closed"
+                      animate="open"
+                      exit="closed"
+                      variants={animations.category}
+                      transition={{ duration: 0.2 }}
+                      className="category-content"
+                    >
+                      {category.items.map(item => (
+                        <motion.div
+                          key={item.slug}
+                          variants={animations.item}
+                          transition={{ duration: 0.15 }}
                         >
-                          <img src="/svgs/arrow.svg" alt="" style={{marginRight : "5px"}} />
-                          {item.name}
-                          {item.tag && (
-                            <span className={`component-tag ${item.tag}`}>
-                              {item.tag}
-                            </span>
-                          )}
-                        </Link>
-                      </motion.div>
-                    ))}
+                          <Link
+                            to={item.path}
+                            className={`component-link ${componentName?.toLowerCase().trim() === item.slug?.toLowerCase().trim()
+                              ? 'active'
+                              : ''
+                              }`}
+                            onClick={() => window.scrollTo(0, 0)}
+                          >
+                            <img src="/svgs/arrow.svg" alt="" style={{ marginRight: "5px" }} />
+                            {item.name}
+                            {item.tag && (
+                              <span className={`component-tag ${item.tag}`}>
+                                {item.tag}
+                              </span>
+                            )}
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </nav>
+        </aside>
+
+        <main className="docs_content">
+
+          <AnimatePresence mode="wait">
+            {loading ? (
+              <motion.div
+                key="loading"
+                className="loader-container"
+                {...animations.fade}
+              >
+                <div className="loader-spinner"></div>
+              </motion.div>
+            ) : (
+              <>
+                {!componentName && (
+                  <motion.div
+                    key="introduction"
+                    className="introduction-container"
+                    {...animations.fade}
+                  >
+                    <Component />
                   </motion.div>
                 )}
-              </AnimatePresence>
-            </div>
-          ))}
-        </nav>
-      </aside>
 
-      <main className="docs_content">
-        <AnimatePresence mode="wait">
-          {loading ? (
-            <motion.div
-              key="loading"
-              className="loader-container"
-              {...animations.fade}
-            >
-              <div className="loader-spinner"></div>
-            </motion.div>
-          ) : Component ? (
-            <motion.div
-              key="component"
-              className="component-container"
-              {...animations.fade}
-            >
-              <h1 className="component-title">{componentName}</h1>
-
-              <div className="view-toggle">
-                <button
-                  className={`toggle-btn ${!showCode ? 'active' : ''}`}
-                  onClick={() => setShowCode(false)}
-                >
-                  Preview
-                </button>
-                <button
-                  className={`toggle-btn ${showCode ? 'active' : ''}`}
-                  onClick={() => setShowCode(true)}
-                >
-                  Code
-                </button>
-              </div>
-
-              {showCode ? (
-
-                <div className="code-container">
-                  <h1 className="code-section-title">Code</h1>
-                  <SyntaxHighlighter
-                    language="jsx"
-                    style={dracula}
-                    customStyle={{ margin: 0, borderRadius: '8px' }}
+                {componentName && componentName.toLowerCase() !== 'introduction' && Component && (
+                  <motion.div
+                    key="component"
+                    className="component-container"
+                    {...animations.fade}
                   >
-                    {rawJsx}
-                  </SyntaxHighlighter>
+                    <h1 className="component-title">{CurrentComponentName}</h1>
 
-                  {rawCss && (
-                    <>
-                      <h1 className="code-section-title">Styling</h1>
-                      <SyntaxHighlighter
-                        language="css"
-                        style={dracula}
-                        customStyle={{ margin: 0, borderRadius: '8px' }}
+                    <div className="view-toggle">
+                      <button
+                        className={`toggle-btn ${!showCode ? 'active' : ''}`}
+                        onClick={() => setShowCode(false)}
                       >
-                        {rawCss}
-                      </SyntaxHighlighter>
-                    </>
-                  )}
-                </div>
-              ) : (
-                <div className="component-preview-container">
-                  <div className="component-preview">
-                    <div className="overlaycomponent-preview"></div>
+                        Preview
+                      </button>
+                      <button
+                        className={`toggle-btn ${showCode ? 'active' : ''}`}
+                        onClick={() => setShowCode(true)}
+                      >
+                        Code
+                      </button>
+                    </div>
+
+                    {showCode ? (
+                      <div className="code-container">
+                        <h1 className="code-section-title">Code</h1>
+                        <SyntaxHighlighter
+                          language="jsx"
+                          style={dracula}
+                          customStyle={{ margin: 0, borderRadius: '8px' }}
+                        >
+                          {rawJsx}
+                        </SyntaxHighlighter>
+
+                        {rawCss && (
+                          <>
+                            <h1 className="code-section-title">Styling</h1>
+                            <SyntaxHighlighter
+                              language="css"
+                              style={dracula}
+                              customStyle={{ margin: 0, borderRadius: '8px' }}
+                            >
+                              {rawCss}
+                            </SyntaxHighlighter>
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="component-preview-container">
+                        <div className="component-preview">
+                          <div className="overlaycomponent-preview"></div>
+                          <Component />
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+
+                {/* Show explicit Introduction if requested */}
+                {componentName && componentName.toLowerCase() === 'introduction' && Component && (
+                  <motion.div
+                    key="introduction"
+                    className="introduction-container"
+                    {...animations.fade}
+                  >
                     <Component />
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          ) : (
-            <motion.div
-              key="empty"
-              className="empty-state"
-              {...animations.fade}
-            >
-              Select a component from the sidebar
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </main>
+                  </motion.div>
+                )}
+              </>
+            )}
+          </AnimatePresence>
+
+        </main>
+      </div>
+
     </div>
   );
 }
