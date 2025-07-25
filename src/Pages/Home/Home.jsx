@@ -110,7 +110,8 @@ function Home() {
           <div className="bglinks_nav" style={{ padding: "0.5em", height: "60%", marginTop: "3% ", opacity: 0 }} ></div>
           <div className="bglinks_nav"
           >
-            <a href='https://github.com/RatneshDesign/dopeui' target='_blank'>Github</a>
+            {/* <a href='https://github.com/RatneshDesign/dopeui' target='_blank'>Github</a> */}
+            <a href='' target='_blank'>Github</a>
           </div>
         </div>
       </nav>
@@ -232,7 +233,8 @@ function Home() {
           <span style={{ opacity: 0.7, fontWeight: 200, letterSpacing: 1 }}>©2025 dopeui All rights reserved</span>
         </div>
         <div className="footer_s2">
-          <a target='_blank' href='https://github.com/RatneshDesign'>Github</a>
+          {/* <a target='_blank' href='https://github.com/RatneshDesign'>Github</a> */}
+          <a target='_blank' href=''>Github</a>
           <Link to={'/docs'}>Docs</Link>
           <a target='_blank' href='https://www.linkedin.com/in/ratnesh-kumawat-6301b425b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'>Linkedin</a>
           <a target='_blank' href='https://www.instagram.com/_ratnesh.design?igsh=M2lzNmRveTQ5MXFo'>Instagram</a>

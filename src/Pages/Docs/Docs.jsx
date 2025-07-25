@@ -144,7 +144,8 @@ useEffect(() => {
         <div className="searchboxdesign">
           
         </div>
-        <a target='_blank' href='https://github.com/RatneshDesign'>Github</a>
+        <a target='_blank' href=''>Github</a>
+        {/* <a target='_blank' href='https://github.com/RatneshDesign'>Github</a> */}
       </nav>
 
       <div className="content_wrapper">
