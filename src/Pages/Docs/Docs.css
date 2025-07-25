@@ -284,3 +284,27 @@
     height: 23px;
     background: #3f3f3f;
 }
+.searchboxdesign{
+    width: 200px;
+    border-radius: 2em;
+    height: 70%;
+    background: #1717175b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1.5px solid #2f2f2f;
+    padding: 10px;
+    position: relative;
+}
+
+.searchboxdesign::after{
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    border-radius: 2em;
+    content: 'CTRL+K';
+    background: #2f2f2f;
+    font-weight: 200;
+    padding: 2px 7px;
+    font-size: 0.8em;
+}

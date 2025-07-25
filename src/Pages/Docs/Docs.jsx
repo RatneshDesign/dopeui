@@ -141,6 +141,9 @@ useEffect(() => {
         <Link to={"/"}>
           <img src="/coloredlogo.svg" alt="logo" style={{ width: "100px" }} />
         </Link>
+        <div className="searchboxdesign">
+          
+        </div>
         <a target='_blank' href='https://github.com/RatneshDesign'>Github</a>
       </nav>
 
