@@ -1,4 +1,4 @@
-export const components = [
+export const componentsData = [
   {
     category: "Cards",
     items: [

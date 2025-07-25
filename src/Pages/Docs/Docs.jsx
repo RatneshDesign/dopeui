@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { components } from '@/data/Components.js';
+import { componentsData } from '@/Data/ComponentsData.js';
 import "./Docs.css";
 
 
@@ -11,7 +11,7 @@ function Docs() {
   const { componentName } = useParams();
   const [expandedCategory, setExpandedCategory] = useState(() => {
     const initialState = {};
-    components.forEach(cat => {
+    componentsData.forEach(cat => {
       initialState[cat.category] = true;
     });
     return initialState;
@@ -51,7 +51,7 @@ useEffect(() => {
           setComponent(() => mod.default);
         } else {
           // Find and load regular components
-          const selected = components
+          const selected = componentsData
             .flatMap(cat => cat.items)
             .find(item => item.slug.toLowerCase() === componentName.toLowerCase());
 
@@ -79,7 +79,7 @@ useEffect(() => {
   // Load raw code when toggled
   useEffect(() => {
     if (componentName && showCode) {
-      const selected = components
+      const selected = componentsData
         .flatMap(cat => cat.items)
         .find(item => item.slug?.toLowerCase() === componentName?.toLowerCase());
 
@@ -126,7 +126,7 @@ useEffect(() => {
   };
 
   // Determine active component metadata
-  const activeCategory = components.find(cat =>
+  const activeCategory = componentsData.find(cat =>
     cat.items.some(item => item.slug === componentName?.toLowerCase())
   );
 
@@ -167,7 +167,7 @@ useEffect(() => {
           <br />
           <h4 className="sidebar-title">Components</h4>
           <nav className="category-list">
-            {components.map(category => (
+            {componentsData.map(category => (
               <div key={category.category} className="category_item">
                 <button
                   className="category_toggle"
