@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { components } from '@/data/components';
+import { components } from '@/data/Components.js';
 import "./Docs.css";
 
 
