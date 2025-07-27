@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -22,6 +22,12 @@ function Docs() {
   const [Component, setComponent] = useState(() => () => null);
   const [loading, setLoading] = useState(false);
   const [CurrentComponentName, setCurrentComponentName] = useState('');
+  const sectionRef = useRef();
+  const [activeIndexcode, setActiveIndexcode] = useState(0);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const inputRef = useRef(null);
+
 
   // useEffect(() => {
   //   setShowCode(false);
@@ -29,9 +35,9 @@ function Docs() {
   //   setRawCss('');
   //   setLoading(true);
   // }, [componentName]);
-useEffect(() => {
-  document.title = `DopeUI${CurrentComponentName ? ` - ${CurrentComponentName}` : ' Documentation'}`;
-}, [CurrentComponentName]);
+  useEffect(() => {
+    document.title = `DopeUI${CurrentComponentName ? ` - ${CurrentComponentName}` : ' Documentation'}`;
+  }, [CurrentComponentName]);
 
 
   // Load component
@@ -134,18 +140,164 @@ useEffect(() => {
     item.slug === componentName?.toLowerCase()
   );
 
+  //serach box
+
+  const [searchshort, setSearchshort] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.key === "k") {
+        e.preventDefault();
+        setSearchshort((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+  useEffect(() => {
+
+    if (searchshort && inputRef.current) {
+      inputRef.current.focus();
+    }
+    const handleClick = (e) => {
+      if (sectionRef.current && sectionRef.current.contains(e.target)) {
+        setSearchshort(false);
+      }
+    };
+
+    if (searchshort) {
+      document.addEventListener("click", handleClick);
+    }
+
+    return () => document.removeEventListener("click", handleClick);
+  }, [searchshort]);
+
+  const filteredResults = useMemo(() => {
+    if (searchTerm.trim() === "") return [];
+
+    return componentsData
+      .map((category) => {
+        const matchedItems = category.items.filter((item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        if (matchedItems.length) {
+          return {
+            category: category.category,
+            items: matchedItems,
+          };
+        }
+
+        return null;
+      })
+      .filter(Boolean);
+  }, [searchTerm]);
+
   return (
     <div className="docs_container">
+      <div
+        ref={sectionRef}
+        className='shortcutSection'
+        style={{
+          display: searchshort ? "flex" : "none",
+          padding: "1em",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          className="innerWrapper_scs"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div className='breadcrumb' style={{ height: "24px", alignItems: "center", justifyContent: "center", gap: "0.5em" }}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#ffffff"} fill={"none"}>
+              <path d="M17 17L21 21" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Search components..."
+              value={searchTerm}
+              ref={inputRef}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className='serchbox'
+            />
+            <svg onClick={() => setSearchshort(false)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={24} height={24} color={"#ffffff"} fill={"none"}>
+              <path d="M18 6L6.00081 17.9992M17.9992 18L6 6.00085" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+            </svg>
+          </div>
+
+          <div className="searchResults">
+            {searchTerm.trim() !== "" && filteredResults.length === 0 && (
+              <p>No results found.</p>
+            )}
+
+            {filteredResults.map((category) => (
+              <div key={category.category}>
+                <h4 style={{ margin: "10px 0 5px 0px" }}>{category.category}</h4>
+                <ul>
+                  {category.items.map((item) => (
+                    <li key={item.slug}>
+                      <div className="activeactionlink" style={{ marginRight: "5px" }}>
+                        <svg style={{ transform: "translate(11px)" }}
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="16"
+                          viewBox="0 0 18 16"
+                          fill="none"
+                        >
+                          <path
+                            d="M 1 1 V 2.52307 C 1 3.99043 1 4.72411 1.14533 5.338 C 1.94529 8.71723 5.90656 11.3676 10.9574 11.9028 C 11.8749 12 13.8068 12 16 12"
+                            stroke="#3f3f3f"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M14 15C14.6068 14.4102 17 12.8403 17 12C17 11.1597 14.6068 9.5898 14 9"
+                            stroke="#3f3f3f"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <Link to={`${item.path}`} onClick={() => setSearchshort(false)} className='breadcrumb' style={{ transform: "translate(11px)", gap: "0.2em" }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={19} height={19} color={"#ffffff"} fill={"none"} >
+                          <path d="M15 2.5V4C15 5.41421 15 6.12132 15.4393 6.56066C15.8787 7 16.5858 7 18 7H19.5" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M4 16V8C4 5.17157 4 3.75736 4.87868 2.87868C5.75736 2 7.17157 2 10 2H14.1716C14.5803 2 14.7847 2 14.9685 2.07612C15.1522 2.15224 15.2968 2.29676 15.5858 2.58579L19.4142 6.41421C19.7032 6.70324 19.8478 6.84776 19.9239 7.03153C20 7.2153 20 7.41968 20 7.82843V16C20 18.8284 20 20.2426 19.1213 21.1213C18.2426 22 16.8284 22 14 22H10C7.17157 22 5.75736 22 4.87868 21.1213C4 20.2426 4 18.8284 4 16Z" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <hr />
+              </div>
+            ))}
+          </div>
+
+        </div>
+
+
+      </div>
 
       <nav className="navbar">
         <Link to={"/"}>
           <img src="/coloredlogo.svg" alt="logo" style={{ width: "100px" }} />
         </Link>
-        <div className="searchboxdesign">
-          
+
+        <div className='breadcrumb' style={{ gap: "1em" }} >
+          <div className="searchboxdesign" onClick={() => setSearchshort(true)}>
+            <span>Search...</span>
+            <div className="sb_shortcutnm">CTRL+K</div>
+          </div>
+          <a target='_blank' href=''>Github</a>
+          {/* <a target='_blank' href='https://github.com/RatneshDesign'>Github</a> */}
         </div>
-        <a target='_blank' href=''>Github</a>
-        {/* <a target='_blank' href='https://github.com/RatneshDesign'>Github</a> */}
       </nav>
 
       <div className="content_wrapper">
@@ -315,16 +467,20 @@ useEffect(() => {
                     </div>
 
 
-                    <div className="view-toggle">
+                    <div className="view_toggle">
+                      <div
+                        className="toggle_highlight"
+                        style={{ left: activeIndexcode === 0 ? "0%" : "50%" }}
+                      ></div>
                       <button
-                        className={`toggle-btn ${!showCode ? 'active' : ''}`}
-                        onClick={() => setShowCode(false)}
+                        className={`toggle_btn ${!showCode ? 'active' : ''}`}
+                        onClick={() => {setShowCode(false);setActiveIndexcode(0)}}
                       >
                         Preview
                       </button>
                       <button
-                        className={`toggle-btn ${showCode ? 'active' : ''}`}
-                        onClick={() => setShowCode(true)}
+                        className={`toggle_btn ${showCode ? 'active' : ''}`}
+                        onClick={() => {setShowCode(true); setActiveIndexcode(1)}}
                       >
                         Code
                       </button>
