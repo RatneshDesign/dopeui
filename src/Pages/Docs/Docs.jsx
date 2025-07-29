@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { darkCodeTheme } from '../../Themes/Darkcodetheme.js';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { componentsData } from '@/Data/ComponentsData.js';
 import "./Docs.css";
@@ -28,17 +29,14 @@ function Docs() {
   const [searchTerm, setSearchTerm] = useState("");
   const inputRef = useRef(null);
 
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  // useEffect(() => {
-  //   setShowCode(false);
-  //   setRawJsx('');
-  //   setRawCss('');
-  //   setLoading(true);
-  // }, [componentName]);
+  const toggleSidebar = () => setSidebarOpen(prev => !prev);
+  const closeSidebar = () => setSidebarOpen(false);
+
   useEffect(() => {
     document.title = `DopeUI${CurrentComponentName ? ` - ${CurrentComponentName}` : ' Documentation'}`;
   }, [CurrentComponentName]);
-
 
   // Load component
   useEffect(() => {
@@ -141,7 +139,6 @@ function Docs() {
   );
 
   //serach box
-
   const [searchshort, setSearchshort] = useState(false);
 
   useEffect(() => {
@@ -193,6 +190,12 @@ function Docs() {
       })
       .filter(Boolean);
   }, [searchTerm]);
+
+  const customStyle = {
+    background: '#1e1e1e',
+    borderRadius: '8px',
+    padding: '1rem',
+  };
 
   return (
     <div className="docs_container">
@@ -295,14 +298,18 @@ function Docs() {
             <span>Search...</span>
             <div className="sb_shortcutnm">CTRL+K</div>
           </div>
+
           <a target='_blank' href=''>Github</a>
           {/* <a target='_blank' href='https://github.com/RatneshDesign'>Github</a> */}
+          <button className="menu_toggle" onClick={toggleSidebar}>
+            ☰
+          </button>
         </div>
       </nav>
 
       <div className="content_wrapper">
 
-        <aside className="docs_sidebar">
+        <aside className={`docs_sidebar ${isSidebarOpen ? 'sidebar--open' : ''}`}>
           <h4 className="sidebar-title">Getting Started</h4>
           <Link
             to="/docs/introduction"
@@ -365,7 +372,10 @@ function Docs() {
                             <Link
                               to={item.path}
                               className={`component-link ${isActive ? 'active' : ''}`}
-                              onClick={() => window.scrollTo(0, 0)}
+                              onClick={() => {
+                                window.scrollTo(0, 0);
+                                closeSidebar();
+                              }}
                             >
                               <div className="activeactionlink" style={{ marginRight: "5px" }}>
                                 <svg
@@ -474,13 +484,13 @@ function Docs() {
                       ></div>
                       <button
                         className={`toggle_btn ${!showCode ? 'active' : ''}`}
-                        onClick={() => {setShowCode(false);setActiveIndexcode(0)}}
+                        onClick={() => { setShowCode(false); setActiveIndexcode(0) }}
                       >
                         Preview
                       </button>
                       <button
                         className={`toggle_btn ${showCode ? 'active' : ''}`}
-                        onClick={() => {setShowCode(true); setActiveIndexcode(1)}}
+                        onClick={() => { setShowCode(true); setActiveIndexcode(1) }}
                       >
                         Code
                       </button>
@@ -492,7 +502,8 @@ function Docs() {
                         <SyntaxHighlighter
                           language="jsx"
                           style={dracula}
-                          customStyle={{ margin: 0, borderRadius: '8px' }}
+                          // customStyle={{ margin: 0, borderRadius: '8px' }}
+                          customStyle={customStyle}
                         >
                           {rawJsx}
                         </SyntaxHighlighter>
@@ -503,7 +514,9 @@ function Docs() {
                             <SyntaxHighlighter
                               language="css"
                               style={dracula}
-                              customStyle={{ margin: 0, borderRadius: '8px' }}
+                              customStyle={customStyle}
+
+                            // customStyle={{ margin: 0, borderRadius: '8px' }}
                             >
                               {rawCss}
                             </SyntaxHighlighter>
