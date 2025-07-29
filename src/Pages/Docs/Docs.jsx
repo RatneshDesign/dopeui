@@ -2,13 +2,16 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { darkCodeTheme } from '../../Themes/Darkcodetheme.js';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { componentsData } from '@/Data/ComponentsData.js';
 import "./Docs.css";
-
+import Toast from './Toast.jsx';
+import Lenis from 'lenis';
 
 function Docs() {
+
+  const [toast, setToast] = useState(null);
+  const wrapperRef = useRef(null);
   const { componentName } = useParams();
   const [expandedCategory, setExpandedCategory] = useState(() => {
     const initialState = {};
@@ -20,6 +23,8 @@ function Docs() {
   const [showCode, setShowCode] = useState(false);
   const [rawJsx, setRawJsx] = useState('');
   const [rawCss, setRawCss] = useState('');
+  const [rawUsage, setRawUsage] = useState('');
+  const [rawDepen, setRawDepen] = useState('');
   const [Component, setComponent] = useState(() => () => null);
   const [loading, setLoading] = useState(false);
   const [CurrentComponentName, setCurrentComponentName] = useState('');
@@ -33,6 +38,40 @@ function Docs() {
 
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
   const closeSidebar = () => setSidebarOpen(false);
+  const lenisRef = useRef(null);
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: true,
+      wrapper,
+      content: wrapper,
+    });
+
+    lenisRef.current = lenis;
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
+
+  useEffect(() => {
+    if (showCode && lenisRef.current) {
+      setTimeout(() => {
+        lenisRef.current.resize();
+      }, 100);
+    }
+  }, [showCode]);
 
   useEffect(() => {
     document.title = `DopeUI${CurrentComponentName ? ` - ${CurrentComponentName}` : ' Documentation'}`;
@@ -87,23 +126,42 @@ function Docs() {
         .flatMap(cat => cat.items)
         .find(item => item.slug?.toLowerCase() === componentName?.toLowerCase());
 
-      // console.log("Component matched:", selected);
-
       if (selected) {
-        // Load JSX code
         selected.raw().then(mod => setRawJsx(mod.default));
 
-        // Load CSS code if available
         if (selected.rawcss) {
           selected.rawcss().then(mod => setRawCss(mod.default));
         } else {
           setRawCss('');
         }
+
+        if (selected.usage) {
+          selected.usage().then(mod => setRawUsage(mod.default));
+        } else {
+          setRawUsage('');
+        }
+        if (selected.dependencies) {
+          setRawDepen(selected.dependencies.join(', '));
+        } else {
+          setRawDepen('');
+        }
       }
     }
+
     document.title = `DopeUI${componentName ? ` - ${CurrentComponentName}` : ' Documentation'}`;
   }, [componentName, showCode]);
 
+  // useEffect(() => {
+  //   if (showCode) {
+  //     // Use setTimeout to ensure DOM update happens first
+  //     setTimeout(() => {
+  //       const container = document.querySelector('.code-container');
+  //       if (container) {
+  //         container.scrollTop = 0;
+  //       }
+  //     }, 50);
+  //   }
+  // }, [showCode, componentName]);
   // Toggle category expansion
   const toggleCategory = (category) => {
     setExpandedCategory(prev => ({
@@ -195,6 +253,12 @@ function Docs() {
     background: '#1e1e1e',
     borderRadius: '8px',
     padding: '1rem',
+  };
+
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setToast("Copied to clipboard");
+    });
   };
 
   return (
@@ -302,7 +366,18 @@ function Docs() {
           <a target='_blank' href=''>Github</a>
           {/* <a target='_blank' href='https://github.com/RatneshDesign'>Github</a> */}
           <button className="menu_toggle" onClick={toggleSidebar}>
-            ☰
+            {isSidebarOpen ?
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={18} height={18} color={"#ffffff"} fill={"none"}>
+                <path d="M18 6L6.00081 17.9992M17.9992 18L6 6.00085" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              :
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={18} height={18} color={"#ffffff"} fill={"none"}>
+                <path d="M20 12L10 12" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M20 5L4 5" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M20 19L4 19" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+
+            }
           </button>
         </div>
       </nav>
@@ -420,7 +495,7 @@ function Docs() {
           </nav>
         </aside>
 
-        <main className="docs_content">
+        <main className="docs_content" ref={wrapperRef}>
 
           <AnimatePresence mode="wait">
             {loading ? (
@@ -495,34 +570,74 @@ function Docs() {
                         Code
                       </button>
                     </div>
-
+                    {toast && <Toast message={toast} onClose={() => setToast(null)} />}
                     {showCode ? (
                       <div className="code-container">
-                        <h1 className="code-section-title">Code</h1>
-                        <SyntaxHighlighter
-                          language="jsx"
-                          style={dracula}
-                          // customStyle={{ margin: 0, borderRadius: '8px' }}
-                          customStyle={customStyle}
-                        >
-                          {rawJsx}
-                        </SyntaxHighlighter>
+
+                        {rawDepen && (
+                          <>
+                            <h1 className="code-section-title">Dependencies</h1>
+                            <SyntaxHighlighter language="bash" style={dracula} customStyle={customStyle}>
+                              {`npm install ${rawDepen}`}
+                            </SyntaxHighlighter>
+                          </>
+                        )}
+                        {rawUsage && (
+                          <>
+                            <div className="breadcrumb" style={{ width: "100%", justifyContent: "space-between" }} >
+                              <h1 className="code-section-title">Usage</h1>
+                              <div className="clipboard" onClick={() => handleCopy(rawUsage)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={20} height={20} color={"#ffffff"} fill={"none"}>
+                                  <path d="M7.99805 16H11.998M7.99805 11H15.998" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" />
+                                  <path d="M7.5 3.5C5.9442 3.54667 5.01661 3.71984 4.37477 4.36227C3.49609 5.24177 3.49609 6.6573 3.49609 9.48836L3.49609 15.9944C3.49609 18.8255 3.49609 20.241 4.37477 21.1205C5.25345 22 6.66767 22 9.49609 22L14.4961 22C17.3245 22 18.7387 22 19.6174 21.1205C20.4961 20.241 20.4961 18.8255 20.4961 15.9944V9.48836C20.4961 6.6573 20.4961 5.24177 19.6174 4.36228C18.9756 3.71984 18.048 3.54667 16.4922 3.5" stroke="#ffffffff" strokeWidth="1.5" />
+                                  <path d="M7.49609 3.75C7.49609 2.7835 8.2796 2 9.24609 2H14.7461C15.7126 2 16.4961 2.7835 16.4961 3.75C16.4961 4.7165 15.7126 5.5 14.7461 5.5H9.24609C8.2796 5.5 7.49609 4.7165 7.49609 3.75Z" stroke="#ffffffff" strokeWidth="1.5" strokeLinejoin="round" />
+                                </svg>
+                              </div>
+                            </div>
+                            <SyntaxHighlighter language="bash" style={dracula} customStyle={customStyle}>
+                              {rawUsage}
+                            </SyntaxHighlighter>
+                          </>
+                        )}
+                        {rawUsage && (
+                          <>
+                            <div className="breadcrumb" style={{ width: "100%", justifyContent: "space-between" }} >
+                              <h1 className="code-section-title">Code</h1>
+                              <div className="clipboard" onClick={() => handleCopy(rawJsx)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={20} height={20} color={"#ffffff"} fill={"none"}>
+                                  <path d="M7.99805 16H11.998M7.99805 11H15.998" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" />
+                                  <path d="M7.5 3.5C5.9442 3.54667 5.01661 3.71984 4.37477 4.36227C3.49609 5.24177 3.49609 6.6573 3.49609 9.48836L3.49609 15.9944C3.49609 18.8255 3.49609 20.241 4.37477 21.1205C5.25345 22 6.66767 22 9.49609 22L14.4961 22C17.3245 22 18.7387 22 19.6174 21.1205C20.4961 20.241 20.4961 18.8255 20.4961 15.9944V9.48836C20.4961 6.6573 20.4961 5.24177 19.6174 4.36228C18.9756 3.71984 18.048 3.54667 16.4922 3.5" stroke="#ffffffff" strokeWidth="1.5" />
+                                  <path d="M7.49609 3.75C7.49609 2.7835 8.2796 2 9.24609 2H14.7461C15.7126 2 16.4961 2.7835 16.4961 3.75C16.4961 4.7165 15.7126 5.5 14.7461 5.5H9.24609C8.2796 5.5 7.49609 4.7165 7.49609 3.75Z" stroke="#ffffffff" strokeWidth="1.5" strokeLinejoin="round" />
+                                </svg>
+                              </div>
+                            </div>
+                            <SyntaxHighlighter language="jsx" style={dracula} customStyle={customStyle}>
+                              {rawJsx}
+                            </SyntaxHighlighter>
+                          </>
+                        )}
 
                         {rawCss && (
                           <>
-                            <h1 className="code-section-title">Styling</h1>
-                            <SyntaxHighlighter
-                              language="css"
-                              style={dracula}
-                              customStyle={customStyle}
-
-                            // customStyle={{ margin: 0, borderRadius: '8px' }}
-                            >
+                            <div className="breadcrumb" style={{ width: "100%", justifyContent: "space-between" }} >
+                              <h1 className="code-section-title">Styling</h1>
+                              <div className="clipboard" onClick={() => handleCopy(rawCss)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={20} height={20} color={"#ffffff"} fill={"none"}>
+                                  <path d="M7.99805 16H11.998M7.99805 11H15.998" stroke="#ffffffff" strokeWidth="1.5" strokeLinecap="round" />
+                                  <path d="M7.5 3.5C5.9442 3.54667 5.01661 3.71984 4.37477 4.36227C3.49609 5.24177 3.49609 6.6573 3.49609 9.48836L3.49609 15.9944C3.49609 18.8255 3.49609 20.241 4.37477 21.1205C5.25345 22 6.66767 22 9.49609 22L14.4961 22C17.3245 22 18.7387 22 19.6174 21.1205C20.4961 20.241 20.4961 18.8255 20.4961 15.9944V9.48836C20.4961 6.6573 20.4961 5.24177 19.6174 4.36228C18.9756 3.71984 18.048 3.54667 16.4922 3.5" stroke="#ffffffff" strokeWidth="1.5" />
+                                  <path d="M7.49609 3.75C7.49609 2.7835 8.2796 2 9.24609 2H14.7461C15.7126 2 16.4961 2.7835 16.4961 3.75C16.4961 4.7165 15.7126 5.5 14.7461 5.5H9.24609C8.2796 5.5 7.49609 4.7165 7.49609 3.75Z" stroke="#ffffffff" strokeWidth="1.5" strokeLinejoin="round" />
+                                </svg>
+                              </div>
+                            </div>
+                            <SyntaxHighlighter language="css" style={dracula} customStyle={customStyle}>
                               {rawCss}
                             </SyntaxHighlighter>
                           </>
                         )}
+
+
                       </div>
+
                     ) : (
                       <div className="component-preview-container">
                         <div className="component-preview">
@@ -548,7 +663,19 @@ function Docs() {
             )}
           </AnimatePresence>
 
+          <footer style={{ width: "100%", marginTop: "5vh" }} >
+            <div className='footer_s1'>
+              <span style={{ opacity: 0.7, fontWeight: 200, letterSpacing: 1 }}>Have any query ?</span>
+            </div>
+            <div className="footer_s2" style={{ gap: "0.5em" }} >
+              <a target='_blank' href='https://www.linkedin.com/in/ratnesh-kumawat-6301b425b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'>Linkedin</a>
+              <a target='_blank' href='https://www.instagram.com/_ratnesh.design?igsh=M2lzNmRveTQ5MXFo'>Instagram</a>
+            </div>
+          </footer>
+
         </main>
+
+
       </div>
 
     </div>

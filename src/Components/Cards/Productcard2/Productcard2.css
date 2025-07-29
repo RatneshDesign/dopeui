@@ -96,3 +96,8 @@
     height: 100%;
     object-fit: contain;
 }
+@media (max-width: 365px) {
+    .logo_on_card{
+        width: 35px;
+    }
+}

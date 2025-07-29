@@ -1,16 +1,18 @@
 import { useState } from "react";
 import "./Productcard.css"
 
-function ProductCard() {
+function ProductCard({ title = "Default Title", price = "100", image = "/DemoImages/Fashionwear.jpeg" }) {
+
   const [expanded, setExpanded] = useState(false);
+
   return (
     <>
       <div className="productcard">
-        <img src="/DemoImages/Fashionwear.jpeg" alt="image name" />
+        <img src={image} alt={title} />
         <div className={`productcard_details ${expanded ? "expanded" : ""}`}>
           <div className="detailsrow">
             {/* pass your propes */}
-            <h3>street wear red</h3>
+            <h3>{title}</h3>
             <button
               className="morebtn"
               onClick={() => setExpanded(!expanded)}
@@ -29,7 +31,7 @@ function ProductCard() {
               <path d="M12 2V22" stroke="#000000ff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             {/* pass your propes */}
-            <h4>100</h4>
+            <h4>{price}</h4>
           </div>
           <div className="actionsbtns_productcard">
             {/* actions buttons here */}

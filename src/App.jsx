@@ -8,30 +8,30 @@ function App() {
 
   const location = useLocation();
 
-  useEffect(() => {
-    if (!location.pathname.startsWith('/docs')) return;
+  // useEffect(() => {
+  //   if (!location.pathname.startsWith('/docs')) return;
 
-    const contentEl = document.querySelector('.docs_content');
-    if (!contentEl) return;
+  //   const contentEl = document.querySelector('.docs_content');
+  //   if (!contentEl) return;
 
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-      smoothTouch: true,
-      wrapper: contentEl,
-      content: contentEl,
-    });
+  //   const lenis = new Lenis({
+  //     duration: 1.2,
+  //     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  //     smooth: true,
+  //     smoothTouch: true,
+  //     wrapper: contentEl,
+  //     content: contentEl,
+  //   });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+  //   function raf(time) {
+  //     lenis.raf(time);
+  //     requestAnimationFrame(raf);
+  //   }
 
-    requestAnimationFrame(raf);
+  //   requestAnimationFrame(raf);
 
-    return () => lenis.destroy();
-  }, [location.pathname]);
+  //   return () => lenis.destroy();
+  // }, [location.pathname]);
 
   return (
     <>
