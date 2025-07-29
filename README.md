@@ -1,4 +1,6 @@
-# DopeUI – Sleek, Copy-Paste UI Components for React
+<p align="center">
+  <img src="/public/coloredlogo.svg" alt="DopeUI Banner" width="600"/>
+</p>
 
 🔥 DopeUI is a growing library of beautiful, motion-rich UI components built using React + Tailwind + GSAP/Framer Motion.
 
