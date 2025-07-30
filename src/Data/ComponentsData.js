@@ -43,6 +43,18 @@ export const componentsData = [
         usage: () => import('@/Components/Forms/AiInput/Demo?raw'),
         dependencies: ['framer-motion'],
       },
+      {
+        name: "Ai InputField v2",
+        slug: "aiinputv2",
+        path: "/docs/aiinputv2",
+        tag: "new",
+        description: "A sleek product display card with image, price and actions.",
+        import: () => import('@/Components/Forms/AiInputv2/AiInputv2'),
+        raw: () => import('@/Components/Forms/AiInputv2/AiInputv2?raw'),
+        rawcss: () => import('@/Components/Forms/AiInputv2/AiInputv2.css?raw'),
+        usage: () => import('@/Components/Forms/AiInputv2/Demo?raw'),
+        dependencies: ['framer-motion'],
+      },
     ],
   },
   {

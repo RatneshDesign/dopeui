@@ -1,10 +1,9 @@
 .dopeui-intro {
-  max-width: 750px;
-  margin: 100px 0;               /* removed auto centering */
-  padding: 0 2rem;
+  width: 99%;
+  margin: 50px 0;            
   color: #eaeaea;
   font-family: "Inter", sans-serif;
-  text-align: left;              /* changed from center */
+  text-align: left;             
 }
 
 .dopeui-intro h1 {
@@ -15,7 +14,7 @@
 }
 
 .dopeui-intro h1 span {
-  color: #ff3c3c;
+  color: #E64F21;
 }
 
 .dopeui-intro p {
@@ -28,7 +27,7 @@
 .dopeui-intro ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 2.5rem 0;         /* removed auto */
+  margin: 0 0 2.5rem 0;   
   text-align: left;
   max-width: 500px;
   color: #bbbbbb;
@@ -37,29 +36,36 @@
 .dopeui-intro ul li {
   margin: 0.5rem 0;
   font-size: 1rem;
-  padding-left: 1.2rem;
   position: relative;
 }
 
 .dopeui-intro ul li::before {
-  content: "•";
   position: absolute;
   left: 0;
-  color: #ff3c3c;
+  color: #E64F21;
 }
-
+.flexright{
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
 .get-started-btn {
-  display: inline-block;
-  background-color: #ff3c3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e64f212e;
   color: white;
-  padding: 0.8rem 1.6rem;
+  padding: 0.6rem 1rem;
+  gap: 5px;
   font-size: 1rem;
-  font-weight: 600;
+  border: 1.5px solid #E64F21;
+  font-weight: 500;
   border-radius: 8px;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .get-started-btn:hover {
-  background-color: #e02929;
+  background-color: #E64F21;
+  gap: 10px;
 }

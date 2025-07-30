@@ -649,7 +649,6 @@ function Docs() {
                   </motion.div>
                 )}
 
-                {/* Show explicit Introduction if requested */}
                 {componentName && componentName.toLowerCase() === 'introduction' && Component && (
                   <motion.div
                     key="introduction"

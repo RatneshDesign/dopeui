@@ -113,6 +113,7 @@ function AiInput() {
                 type="file"
                 style={{ display: "none" }}
                 onChange={handleFileChange}
+                // multiple  // desiged for single file upload for limited usage 
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -271,9 +272,9 @@ function AiInput() {
 
                 {showTools && (
                   <motion.div
-                    initial={{ y: 30, opacity: 0 }}      
-                    animate={{ y: 0, opacity: 1 }}       
-                    exit={{ y: 30, opacity: 0 }}         
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 30, opacity: 0 }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
 
                     className="dropdownBox">

@@ -1,9 +1,10 @@
-import { motion, AnimatePresence } from "framer-motion";
 import React, { useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Toast = ({ message, onClose }) => {
+
   useEffect(() => {
-    const timer = setTimeout(onClose, 2000); // auto-hide after 2s
+    const timer = setTimeout(onClose, 2000); 
     return () => clearTimeout(timer);
   }, [onClose]);
 
@@ -14,20 +15,19 @@ const Toast = ({ message, onClose }) => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 40 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
           style={{
             position: "fixed",
             bottom: "30px",
-            left: "50%",
-            transform: "translateX(-50%)",
+            right: "2%",
             background: "#222",
             color: "#fff",
             padding: "10px 20px",
             borderRadius: "8px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.39)",
             zIndex: 9999,
             fontSize: "14px",
-            opacity: 0.95,
+            opacity: 1,
           }}
         >
           {message}

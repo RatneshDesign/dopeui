@@ -355,7 +355,9 @@
     width: 2px;
     height: 23px;
     background: #3f3f3f;
+    /* background: transparent; */
 }
+
 .searchboxdesign{
     width: 200px;
     border-radius: 2em;
