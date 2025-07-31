@@ -5,7 +5,7 @@ const Demo = () => {
   return (
     <ProductCard
       title="street wear"
-      price="$100"
+      price="100"
       image="/DemoImages/Fashionwear.jpeg"
     />
   );

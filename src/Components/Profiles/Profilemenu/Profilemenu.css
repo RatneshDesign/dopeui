@@ -1,0 +1,66 @@
+
+.profilemenu{
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-content: inherit;
+    justify-content: space-between;
+}
+.plogo{
+    width: 130px;
+}
+.plogo img{
+    width: 100%;
+    object-fit: cover;
+}
+.avtarandmenu{
+    position: relative;
+}
+.profileavtar{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #ffffff;
+    overflow: hidden;
+}
+.profileavtar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.popupmenu{
+    position: absolute;
+    top: 55px;
+    right: 0px;
+    width: fit-content;
+    height: fit-content;
+    background: white;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 0.5em;
+    color: black;
+}
+.popitemslinks{
+    border-radius: 0.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    width: 100%;
+    padding: 0.5em 0.7em;
+}
+.popitemslinks:hover{
+    background: rgb(230, 230, 230)
+}
+.supgradeplan{
+    border-radius: 0.3em;
+    display: flex;
+    align-items: center;
+    background: #954effc1;
+    color: #03072d;
+    border: 1px solid #6925ce;
+    font-size: 0.8em;
+    padding: 0.1em;
+    margin-left: 10px;
+}
