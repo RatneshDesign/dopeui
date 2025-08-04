@@ -1,0 +1,107 @@
+.pwrapper{
+    position: relative;
+}
+
+
+.card-container {
+  width: 90%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  border-radius: 5%;
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.card-image {
+  height: 35%;
+  background: linear-gradient(135deg, #4adede, #f4b2e5, #ffa07a);
+  background-size: cover;
+  border-bottom-left-radius: 10% 10%;
+  border-bottom-right-radius: 10% 10%;
+}
+
+.card-content {
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 65%;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.avatar {
+  width: 16%;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.badge {
+  background: #5c38f3;
+  color: white;
+  font-size: 0.8em;
+  padding: 0.3em 0.8em;
+  border-radius: 1em;
+  font-weight: 600;
+}
+
+.card-info h2 {
+  margin: 0.5em 0 0 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.card-info p {
+  margin: 0;
+  font-size: 0.9em;
+  color: gray;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1em;
+  font-size: 0.85em;
+  color: #333;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat span {
+  font-size: 1.2em;
+}
+
+.stat small {
+  color: #888;
+  font-size: 0.75em;
+}
+
+.contact-button {
+  margin-top: auto;
+  background: #1e1e1e;
+  color: white;
+  padding: 0.8em 0;
+  border: none;
+  border-radius: 1.5em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contact-button:hover {
+  background: #333;
+}

@@ -72,6 +72,18 @@ export const componentsData = [
         usage: () => import('@/Components/Profiles/Profilemenu/Demo?raw'),
         dependencies: ['framer-motion'],
       },
+      {
+        name: "Profile card",
+        slug: "profilecard",
+        path: "/docs/profilecard",
+        tag: "new",
+        description: "A sleek product display card with image, price and actions.",
+        import: () => import('@/Components/Profiles/ProfileCard/Demo'),
+        raw: () => import('@/Components/Profiles/ProfileCard/ProfileCard?raw'),
+        rawcss: () => import('@/Components/Profiles/ProfileCard/ProfileCard.css?raw'),
+        usage: () => import('@/Components/Profiles/ProfileCard/Demo?raw'),
+        dependencies: ['framer-motion'],
+      },
     ],
   },
 ];
