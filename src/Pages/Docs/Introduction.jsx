@@ -1,4 +1,4 @@
-import "./intro.css"
+import "./Intro.css"
 import { Link } from "react-router-dom"
 function Introduction() {
   return (
