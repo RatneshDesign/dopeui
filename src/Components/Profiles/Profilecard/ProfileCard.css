@@ -1,46 +1,39 @@
-.pwrapper{
-    position: relative;
-}
-
-
-.card-container {
-  width: 90%;
-  max-width: 400px;
-  aspect-ratio: 1 / 1;
-  border-radius: 5%;
+.card_container {
+  width: 300px;
+  height: 350px;
+  border-radius: 10%;
   background: #fff;
   box-shadow: 0 5px 20px rgba(0,0,0,0.1);
   overflow: hidden;
-  margin: auto;
   display: flex;
   flex-direction: column;
   position: relative;
+  padding: 1em;
 }
 
-.card-image {
+.card_image {
   height: 35%;
   background: linear-gradient(135deg, #4adede, #f4b2e5, #ffa07a);
   background-size: cover;
-  border-bottom-left-radius: 10% 10%;
-  border-bottom-right-radius: 10% 10%;
+  border-radius: 1.3em;
 }
 
-.card-content {
-  padding: 5%;
+.card_content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 65%;
 }
 
-.card-header {
+.card_header {
+  padding: 0em 1.5em;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .avatar {
-  width: 16%;
+  width: 70px;
   border-radius: 50%;
   border: 2px solid white;
 }
@@ -54,13 +47,13 @@
   font-weight: 600;
 }
 
-.card-info h2 {
+.card_info h2 {
   margin: 0.5em 0 0 0;
   font-size: 1.2em;
   color: #333;
 }
 
-.card-info p {
+.card_info p {
   margin: 0;
   font-size: 0.9em;
   color: gray;
@@ -90,7 +83,7 @@
   font-size: 0.75em;
 }
 
-.contact-button {
+.contact_button {
   margin-top: auto;
   background: #1e1e1e;
   color: white;
@@ -102,6 +95,6 @@
   transition: 0.3s;
 }
 
-.contact-button:hover {
+.contact_button:hover {
   background: #333;
 }

@@ -3,7 +3,8 @@
   margin: 50px 0;            
   color: #eaeaea;
   font-family: "Inter", sans-serif;
-  text-align: left;             
+  text-align: left;
+  height: 66vh;     
 }
 
 .dopeui-intro h1 {

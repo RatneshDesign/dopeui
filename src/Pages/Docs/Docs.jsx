@@ -523,7 +523,7 @@ function Docs() {
                     key="component"
                     className="component-container"
                     {...animations.fade}
-                  >
+                    >
                     <div className="docs_contenant">
                       <span className="breadcrumb">
                         <span style={{ color: "#8c8c8c" }}>
