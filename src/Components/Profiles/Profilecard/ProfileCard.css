@@ -1,100 +1,114 @@
-.card_container {
-  width: 300px;
-  height: 350px;
-  border-radius: 10%;
-  background: #fff;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+.card-container {
+  width: 320px;
+  background: white;
+  border-radius: 25px;
+  box-shadow: 0px 8px 30px rgba(0,0,0,0.1);
+  overflow: hidden; /* ensures entire card respects rounded edges */
+  font-family: 'Inter', sans-serif;
   position: relative;
-  padding: 1em;
 }
 
-.card_image {
-  height: 35%;
-  background: linear-gradient(135deg, #4adede, #f4b2e5, #ffa07a);
-  background-size: cover;
-  border-radius: 1.3em;
+.image-wrapper {
+  position: relative;
+  width: 100%;
 }
 
-.card_content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 65%;
+.bg-img-container {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
 }
 
-.card_header {
-  padding: 0em 1.5em;
+.bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-pic {
+  position: absolute;
+  bottom: -30px;
+  left: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid white;
+  width: 60px;
+  height: 60px;
+}
+
+.profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.company-tag {
+  position: absolute;
+  bottom: -15px;
+  right: 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  background: white;
+  border-radius: 50px;
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
 }
 
-.avatar {
-  width: 70px;
-  border-radius: 50%;
-  border: 2px solid white;
+.company-logo {
+  width: 20px;
+  margin-right: 6px;
 }
 
-.badge {
-  background: #5c38f3;
-  color: white;
-  font-size: 0.8em;
-  padding: 0.3em 0.8em;
-  border-radius: 1em;
+.card-content {
+  padding: 40px 20px 20px;
+  text-align: left;
+}
+
+.card-content h2 {
+  margin: 0;
+  font-size: 18px;
   font-weight: 600;
 }
 
-.card_info h2 {
-  margin: 0.5em 0 0 0;
-  font-size: 1.2em;
-  color: #333;
-}
-
-.card_info p {
-  margin: 0;
-  font-size: 0.9em;
-  color: gray;
+.role {
+  color: #999;
+  font-size: 14px;
+  margin: 4px 0 16px;
 }
 
 .stats {
   display: flex;
   justify-content: space-between;
-  margin-top: 1em;
-  font-size: 0.85em;
-  color: #333;
+  margin-bottom: 20px;
 }
 
-.stat {
+.stat-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
+  font-size: 14px;
 }
 
-.stat span {
-  font-size: 1.2em;
+.stat-item span {
+  font-size: 18px;
+  margin-right: 8px;
 }
 
-.stat small {
-  color: #888;
-  font-size: 0.75em;
-}
-
-.contact_button {
-  margin-top: auto;
-  background: #1e1e1e;
-  color: white;
-  padding: 0.8em 0;
+.cta-button {
+  width: 100%;
+  padding: 14px;
   border: none;
-  border-radius: 1.5em;
-  font-weight: 600;
+  border-radius: 50px;
+  background: black;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.contact_button:hover {
+.cta-button:hover {
   background: #333;
 }

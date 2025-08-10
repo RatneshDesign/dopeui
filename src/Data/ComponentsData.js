@@ -86,4 +86,21 @@ export const componentsData = [
       },
     ],
   },
+  {
+    category: "Social Media",
+    items: [
+      {
+        name: "Post",
+        slug: "post",
+        path: "/docs/post",
+        tag: "new",
+        description: "A sleek product display card with image, price and actions.",
+        import: () => import('@/Components/SocialMedia/Post/Demo'),
+        raw: () => import('@/Components/SocialMedia/Post/Post?raw'),
+        rawcss: () => import('@/Components/SocialMedia/Post/Post.css?raw'),
+        usage: () => import('@/Components/SocialMedia/Post/Demo?raw'),
+        dependencies: ['framer-motion'],
+      },
+    ],
+  },
 ];
