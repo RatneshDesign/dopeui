@@ -273,7 +273,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 1200px;
+    /* max-width: 1200px; */
     border-radius: 8px;
     background: #252525;
     padding: 1rem;

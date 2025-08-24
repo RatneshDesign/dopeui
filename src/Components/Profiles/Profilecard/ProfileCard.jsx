@@ -2,24 +2,36 @@ import React from "react";
 import "./ProfileCard.css";
 export default function ProfileCard() {
   return (
+
     <div className="card-container">
       <div className="image-wrapper">
         <div className="bg-img-container">
           <img src="/DemoImages/Fashionwear.jpeg" alt="Background" className="bg-img" />
         </div>
-        <div className="profile-pic">
-          <img src="/DemoImages/2davtar.jpg" alt="Profile" />
+
+        <div className="pic-header">
+          <div className="profile-pic">
+            <img src="/DemoImages/2davtar.jpg" alt="Profile" />
+          </div>
+          <div className="company-tag">
+            <img src="/DemoImages/Logo_NIKE.png" alt="Adobe" className="company-logo" />
+            <span>Adobe Co.</span>
+          </div>
         </div>
-        <div className="company-tag">
-          <img src="/DemoImages/Logo_NIKE.png" alt="Adobe" className="company-logo" />
-          <span>Adobe Co.</span>
-        </div>
+
       </div>
 
       <div className="card-content">
-        <h2>Alex Turner</h2>
-        <p className="role">Creative Director</p>
+        <div className="share-prof">
+          <div className="hedpic">
 
+            <h2>Ratnesh kumawat</h2>
+            <span className="role">Ui Designer | Developer</span>
+          </div>
+          <div className="shareprofile">
+
+          </div>
+        </div>
         <div className="stats">
           <div className="stat-item">
             <span className="star">★</span>
@@ -43,8 +55,8 @@ export default function ProfileCard() {
           </div>
         </div>
 
-        <button className="cta-button">Get In Touch</button>
       </div>
+      <button className="cta-button">Get In Touch</button>
     </div>
   );
 }
