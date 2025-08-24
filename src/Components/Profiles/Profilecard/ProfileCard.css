@@ -4,7 +4,6 @@
   border-radius: 3em;
   box-shadow: 0px 8px 30px rgba(0,0,0,0.1);
   overflow: hidden; /* ensures entire card respects rounded edges */
-  font-family: 'Inter', sans-serif;
   position: relative;
   color: black;
   padding: 17px;
@@ -48,6 +47,7 @@
 }
 
 .share-prof{
+  margin-bottom: 3px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -58,11 +58,15 @@
   height: fit-content;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 .shareprofile{
-  background: #000;
+  display: grid;
+  place-items: center;
+  border-radius: 5em;
+  background: #f1f1f1;
+  transform: translateY(-7px);
+  border: 1px solid rgb(177, 177, 177);
   height: 50px;
   width: 50px;
 }
@@ -81,6 +85,8 @@
   height: fit-content;
   bottom: -15px;
   right: 20px;
+  color: white;
+  stroke: white;
   display: flex;
   align-items: center;
   background: rgb(104, 81, 253);
@@ -124,6 +130,7 @@
   display: flex;
   align-items: center;
   font-size: 14px;
+  gap: 5px;
 }
 
 .stat-item span {
