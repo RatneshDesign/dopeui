@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import Lenis from 'lenis';
 import Home from './Pages/Home/Home'
 import Docs from './Pages/Docs/Docs'
+import AudioVisualizer from './Components/Animation';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/docs/:componentName" element={<Docs />} />
         <Route path="/docs" element={<Docs />} />
+        <Route path="/animation" element={<AudioVisualizer />} />
       </Routes>
     </>
   )
