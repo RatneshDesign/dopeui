@@ -1,5 +1,22 @@
 export const componentsData = [
   {
+    category: "Animation",
+    items: [
+      {
+        name: "anime",
+        slug: "anime",
+        path: "/docs/anime",
+        tag: "update",
+        description: "A sleek product display card with image, price and actions.",
+        import: () => import('@/Components/Animation/Demo'),
+        raw: () => import('@/Components/Animation/index?raw'),
+        rawcss: () => import('@/Components/Animation/index.css?raw'),
+        usage: () => import('@/Components/Animation/Demo?raw'),
+        dependencies: ['framer-motion'],
+      },
+    ],
+  },
+  {
     category: "Cards",
     items: [
       {
@@ -82,6 +99,23 @@ export const componentsData = [
         raw: () => import('@/Components/Profiles/Profilecard/ProfileCard?raw'),
         rawcss: () => import('@/Components/Profiles/Profilecard/ProfileCard.css?raw'),
         usage: () => import('@/Components/Profiles/Profilecard/Demo?raw'),
+        dependencies: ['framer-motion'],
+      },
+    ],
+  },
+  {
+    category: "Sidebars",
+    items: [
+      {
+        name: "Sidebars",
+        slug: "sidebarv1",
+        path: "/docs/sidebarv1",
+        tag: "new",
+        description: "A sleek product display card with image, price and actions.",
+        import: () => import('@/Components/Sidebar/Demo'),
+        raw: () => import('@/Components/Sidebar/Sidebar?raw'),
+        // rawcss: () => import('@/Components/Sidebar/Profilemenu/Profilemenu.css?raw'),
+        usage: () => import('@/Components/Sidebar/Demo?raw'),
         dependencies: ['framer-motion'],
       },
     ],

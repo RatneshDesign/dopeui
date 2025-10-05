@@ -1,5 +1,5 @@
-https://i.imgur.com/yVeIeDa.jpeg
-https://in.pinterest.com/pin/3799980930657060/
+// https://i.imgur.com/yVeIeDa.jpeg
+// https://in.pinterest.com/pin/3799980930657060/
 "use client";
 
 import Link from "next/link";

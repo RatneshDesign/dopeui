@@ -40,30 +40,30 @@ function Docs() {
   const closeSidebar = () => setSidebarOpen(false);
   const lenisRef = useRef(null);
 
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper) return;
+  // useEffect(() => {
+  //   const wrapper = wrapperRef.current;
+  //   if (!wrapper) return;
 
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-      smoothTouch: true,
-      wrapper,
-      content: wrapper,
-    });
+  //   const lenis = new Lenis({
+  //     duration: 1.2,
+  //     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  //     smooth: true,
+  //     smoothTouch: true,
+  //     wrapper,
+  //     content: wrapper,
+  //   });
 
-    lenisRef.current = lenis;
+  //   lenisRef.current = lenis;
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+  //   function raf(time) {
+  //     lenis.raf(time);
+  //     requestAnimationFrame(raf);
+  //   }
 
-    requestAnimationFrame(raf);
+  //   requestAnimationFrame(raf);
 
-    return () => lenis.destroy();
-  }, []);
+  //   return () => lenis.destroy();
+  // }, []);
 
   useEffect(() => {
     if (showCode && lenisRef.current) {

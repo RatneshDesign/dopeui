@@ -166,7 +166,7 @@ function Home() {
       </div >
 
 
-      <div className="svgwrapperdope">
+      {/* <div className="svgwrapperdope">
         <div className="blackbox_swdop">
           <div className="cornericon"></div>
           <div className="dopeinfo">
@@ -217,7 +217,7 @@ function Home() {
           <div className="holding_headings">hewll </div>
         </div>
 
-      </div>
+      </div> */}
       <hr style={{ width: "90vw", border: "1px solid #E64F21", marginTop: "10vh", marginBottom: "5vh" }} />
       <footer>
         <div className='footer_s1'>
